@@ -6,7 +6,7 @@ the config required to run the live demo.
 
 == Slides
 
-Slides can be found <here> later.
+Slides can be found at http://ajaegle.github.io/search-meetup-kibana.
 
 == Showcase
 
