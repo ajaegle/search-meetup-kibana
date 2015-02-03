@@ -20,7 +20,7 @@ A mapping for the tweets structure is also available and has to be applied
 before indexing data. This mapping is not to be seen as complete as only
 selected fields are mapped to be searchable correctly. For full use of the
 whole tweet structure, more fields have to be mapped correctly
-(e.g. not_analyzed for user.url).
+(e.g. `not_analyzed` for user.url).
 
 == Dependencies
 
