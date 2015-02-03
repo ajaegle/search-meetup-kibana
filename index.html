@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Kibana 4 - search meetup Karlsruhe</title>
+
+		<meta name="description" content="Slides about kibana 4 at search meetup Karlsruhe">
+		<meta name="author" content="Andreas Jägle">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="bower_components/reveal.js/css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="bower_components/reveal.js/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'bower_components/reveal.js/css/print/pdf.css' : 'bower_components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>Kibana 4</h1>
+				</section>
+
+				<section>
+					<h2>agenda</h2>
+					<p>overview</p>
+					<p>aggregations</p>
+					<p>kibana 4 - live demo</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>about me</h2>
+						<ul class="fragments">
+							<li>Andreas Jägle</li>
+							<li>software dev @cluetec</li>
+							<li>java, spring, nosql, javascript</li>
+							<div class="fragment">
+								<li>mail@ajaegle.de</li>
+								<li>@ajaegle</li>
+							</div>
+						</ul>
+					</section>
+					<section>
+						<h2>about you</h2>
+						<ul class="fragments">
+							<li>using elasticsearch?</li>
+							<li class="fragment">using kibana?</li>
+							<li class="fragment">not only for logging?</li>
+							<li class="fragment">already on 4?</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h2>use cases</h2>
+					<ul class="fragments">
+						<li>searching log data</li>
+						<li class="fragment">exploration</li>
+						<li class="fragment">analytics</li>
+						<li class="fragment">dashboards</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>kibana 4</h2>
+					<ul class="fragments">
+						<li>heavily built on aggregations</li>
+						<li class="fragment">
+							split UI
+							<ul>
+								<li>discover</li>
+								<li>visualize</li>
+								<li>dashboard</li>
+							</ul>
+						</li>
+
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>aggregations</h2>
+						<ul>
+							<li class="fragment">bucketing</li>
+							<ul class="fragment">
+								<li>grouping documents in sets</li>
+								<li>allows nesting of aggregations</li>
+								<li>e.g. terms, ranges, geohash</li>
+							</ul>
+							<li class="fragment">metrics</li>
+							<ul class="fragment">
+								<li>aggregating metrics about a dataset</li>
+								<li>yields one or more stats</li>
+								<li>e.g. count, sum, avg, ...</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h2>aggregation structure</h2>
+						<pre><code data-trim>
+GET index/type/_search
+{
+	"query": {
+		...
+	},
+	"aggs": {
+		"agg1_name": {
+			"agg_type": {
+				...
+			}
+		},
+		...
+	}
+}
+						</code></pre>
+					</section>
+					<section>
+						<h2>sample aggregation</h2>
+						<pre><code data-trim>
+GET twitter_v2/_search?search_type=count
+{
+	"query": {
+		"match": { "text": "elasticsearch" }
+	},
+	"aggs": {
+		"top_users": {
+			"terms": {
+				"field": "user.screen_name",
+				"size": 10
+			}
+		}
+	}
+}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>sample result</h2>
+						<pre><code data-trim>
+"hits": { ... },
+"aggregations": {
+	"top_users": {
+		...,
+		"buckets": [
+		{
+			"key": "fhopf",
+			"doc_count": 2
+		},
+		{
+			"key": "exensio",
+			"doc_count": 1
+		}
+	}
+}
+						</code></pre>
+					</section>
+				</section>
+
+
+				<section>
+					<h2>getting started</h2>
+					<ul class="fragments">
+						<li class="fragment">requires elasticsearch 1.4</li>
+						<li class="fragment">wget</li>
+						<li class="fragment">tar</li>
+						<li class="fragment">$EDITOR config/kibana.yml</li>
+						<li class="fragment">bin/kibana</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h1>demo time</h1>
+				</section>
+
+				<section>
+					<h2>conclusion</h2>
+					<ul class="fragments">
+						<li class="fragment">slick ui</li>
+						<li class="fragment">pretty stable.</li>
+						<li class="fragment">aggregations rock!</li>
+						<li class="fragment">security still an open issue</li>
+						<li class="fragment">migration? nope.</li>
+						<li class="fragment">production-ready? yap.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>thx</h1>
+					<p>questions?</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="bower_components/reveal.js/lib/js/head.min.js"></script>
+		<script src="bower_components/reveal.js/js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'bower_components/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'bower_components/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'bower_components/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'bower_components/reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'bower_components/reveal.js/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'bower_components/reveal.js/plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
