@@ -35,6 +35,6 @@ whole tweet structure, more fields have to be mapped correctly
 - Create a new twitter application at https://apps.twitter.com/
 - Obtain OAuth access token for your user
 - Apply your twitter key/secret/oauth token to the logstash config
-- Run `logstash-1.4.2/bin/logstash agent -f twitter.conf`
+- Run `logstash-1.4.2/bin/logstash agent -f samples/logstash-twitter.conf`
 - Extract kibana and edit config/kibana.yml to match your elasticsearch host
 - Run `kibana/bin/kibana` and visit http://localhost:5601
